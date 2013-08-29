@@ -9,9 +9,31 @@
 
 class ShopProductWriter
 {
-    public function Write(ShopProduct $product)
+    private $products;
+
+    function __construct()
     {
-        $str = "{$product->title}: {$product->getProducer()} ({$product->price})\n";
+        $this->products = array();
+    }
+
+    public function WriteSingle(ShopProduct $product)
+    {
+        $str = "{$product->getTitle()}: {$product->getProducer()} ({$product->getPrice()})\n";
+        print $str;
+    }
+
+    public function AddProduct(ShopProduct $product)
+    {
+        $this->products[] = $product;
+    }
+
+    public function WriteAll()
+    {
+        $str = "";
+        foreach($this->products as $product)
+        {
+            $str .= "{$product->getTitle()}: {$product->getProducer()} ({$product->getPrice()})\n";
+        }
         print $str;
     }
 }
