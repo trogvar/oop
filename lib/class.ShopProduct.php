@@ -7,12 +7,13 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ShopProduct
+class ShopProduct implements IChargeable
 {
-    private  $title = "default product";
+    private $id = 0;
+    private $title = "default product";
     private $producerMainName = "main name";
     private $producerFirstName = "first name";
-    protected  $price = 0;
+    protected $price = 0;
     private $discount = 0;
 
     function __construct($title, $firstName, $mainName, $price)
@@ -48,8 +49,27 @@ class ShopProduct
         return $this->price - $this->discount;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     function getSummaryLine()
     {
         return "$this->title ({$this->producerMainName}, {$this->producerFirstName})";
+    }
+
+    public static function getInstance($id, PDO $pdo)
+    {
+        $query = $pdo->prepare("select * from products where id=?");
+        $result = $query->execute(array($id));
+
+        $row = $query->fetch();
+        if(empty($row))
+            return null;
+
+        $product = new ShopProduct($row["title"], "", "", $row["price"]);
+        $product->setId($row["id"]);
+        return $product;
     }
 }

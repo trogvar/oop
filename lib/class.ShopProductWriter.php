@@ -7,9 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ShopProductWriter
+abstract class ShopProductWriter
 {
-    private $products;
+    protected  $products;
 
     function __construct()
     {
@@ -27,13 +27,5 @@ class ShopProductWriter
         $this->products[] = $product;
     }
 
-    public function WriteAll()
-    {
-        $str = "";
-        foreach($this->products as $product)
-        {
-            $str .= "{$product->getTitle()}: {$product->getProducer()} ({$product->getPrice()})\n";
-        }
-        print $str;
-    }
+    public abstract function WriteAll();
 }
