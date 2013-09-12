@@ -78,3 +78,5 @@ $boss->addEmployee(Employee::recruit("Linda"));
 $boss->projectFails();
 $boss->projectFails();
 $boss->projectFails();
+
+//stupid pointless comment just to test Git merge
