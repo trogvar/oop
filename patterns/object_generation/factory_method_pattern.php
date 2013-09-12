@@ -28,41 +28,51 @@ class MegaApptEncoder extends ApptEncoder
     }
 }
 
-class CommsManager
+abstract class CommsManager
 {
-    const BLOGGS = 1;
-    const MEGA = 2;
-    private $mode;
+    abstract function getHeaderText();
+    abstract function getFooterText();
+    abstract function getApptEncoder();
+}
 
-    function __construct($mode)
-    {
-        $this->mode = $mode;
-    }
+class BloggsCommsManager extends CommsManager
+{
 
     function getHeaderText()
     {
-        switch($this->mode)
-        {
-            case self::MEGA:
-                return "MegaCal header\n";
-            default:
-                return "BloggsCal header\n";
-        }
+        return "BloggsCal header\n";
+    }
 
+    function getFooterText()
+    {
+        return "BloggsCal footer\n";
     }
 
     function getApptEncoder()
     {
-        switch($this->mode)
-        {
-            case self::MEGA:
-                return new MegaApptEncoder();
-            default:
-                return new BloggsApptEncoder();
-        }
+        return new BloggsApptEncoder();
     }
 }
 
-$comms = new CommsManager(CommsManager::MEGA);
+class MegaCommsManager extends CommsManager
+{
+
+    function getHeaderText()
+    {
+        return "MegaCal header\n";
+    }
+
+    function getFooterText()
+    {
+        return "MegaCal footer\n";
+    }
+
+    function getApptEncoder()
+    {
+        return new MegaApptEncoder();
+    }
+}
+
+$comms = new MegaCommsManager();
 $encoder = $comms->getApptEncoder();
 print $encoder->encode();
