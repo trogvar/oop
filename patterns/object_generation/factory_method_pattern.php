@@ -39,6 +39,18 @@ class CommsManager
         $this->mode = $mode;
     }
 
+    function getHeaderText()
+    {
+        switch($this->mode)
+        {
+            case self::MEGA:
+                return "MegaCal header\n";
+            default:
+                return "BloggsCal header\n";
+        }
+
+    }
+
     function getApptEncoder()
     {
         switch($this->mode)
